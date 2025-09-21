@@ -1,0 +1,5 @@
+{
+    "MixTimePerItem": 1, //Put less or equal to zero and InstantMixing will be put to true instead.
+    "InstantMixing": false, //Putting this to true will override everything else, instant mixing will be activated
+    "MixTimeForAnything": 0 //Putting anything higher than 1 will override MixTimePerItem, that will no longer be how mixtime is calculated, whatever MixTimeForAnything is set to will be the time for any quantity of items
+}
