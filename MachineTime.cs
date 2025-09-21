@@ -21,7 +21,7 @@ namespace FasterMixing
         {
             public int MixTimePerItem { get; set; }
             public bool InstantMixing { get; set; }
-
+            public int MixTimeForAnything { get; set; }
         }
 
         public static Settings Modsettings;
@@ -41,7 +41,7 @@ namespace FasterMixing
                 string settingsPath = Path.Combine(Directory.modDirectory, "configFasterMixing.json");
                 if (!File.Exists(settingsPath))
                 {
-                    var defaultSettings = new Settings { MixTimePerItem = 1, InstantMixing = false };
+                    var defaultSettings = new Settings { MixTimePerItem = 1, InstantMixing = false, MixTimeForAnything = 0 };
                     File.WriteAllText(settingsPath, JsonConvert.SerializeObject(defaultSettings, Formatting.Indented));
                     MelonLogger.Msg("No settings file found. Created one with default settings.");
                 }
@@ -51,7 +51,7 @@ namespace FasterMixing
             }
             catch (Exception e)
             {
-                MelonLogger.Msg($"Error loading the settings from json fiel: {e}");
+                MelonLogger.Msg($"Error loading the settings from json: {e}");
             }
         }
 
@@ -65,14 +65,26 @@ namespace FasterMixing
                 {
                     return;
                 }
-                if (MachineTime.Modsettings.InstantMixing)
+                if (Modsettings.MixTimePerItem <= 0)
+                {
+                    MelonLogger.Msg("Tried to put mixtime per item less or equal to 0, changing the value to instant mix");
+                    Modsettings.MixTimePerItem = 1;
+                    Modsettings.InstantMixing = true;
+                }
+                //If instant mixing is set to true, than that will override MixTimePer20Item and MixTimePerItem
+                if (Modsettings.InstantMixing)
                 {
                     __result = 1;
                 }
-                else
+                //If MixTimeForAnything is set to anything higher than 0, then that will override MixTimePerItem
+                if (Modsettings.MixTimeForAnything > 0 && !Modsettings.InstantMixing)
+                {
+                    __result = Modsettings.MixTimeForAnything;
+                }
+                //If user went with none of these (default setting) or just changed MixTimePerItem
+                else if (!Modsettings.InstantMixing && Modsettings.MixTimeForAnything <= 0)
                 {
                     __result = MachineTime.Modsettings.MixTimePerItem * __instance.CurrentMixOperation.Quantity;
-                    MelonLogger.Msg($"Changed mix time to {__result}.");
                 }
 
             }

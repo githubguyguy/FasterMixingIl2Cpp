@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: MelonInfo(typeof(MachineTime), "FasterMixing", "1.0.0", "Zlatan9798")]
+[assembly: MelonInfo(typeof(MachineTime), "FasterMixing", "1.1.2", "Zlatan9798")]
 [assembly: MelonGame("TVGS", "Schedule I")]
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
