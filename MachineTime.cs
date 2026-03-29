@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MelonLoader;
-using ScheduleOne.ObjectScripts;
+using Il2CppScheduleOne.ObjectScripts;
 using UnityEngine;
 using HarmonyLib;
 using Newtonsoft.Json;
